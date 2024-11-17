@@ -12,7 +12,7 @@ class Character(models.Model):
     description = models.TextField()
     house = models.ForeignKey('House', null=True, blank=True, on_delete=models.SET_NULL, related_name='characters')
     seasons = models.ManyToManyField('Season')
-
+    image = models.ImageField(upload_to='media/', null=True, blank=True)
     def __str__(self):
         return self.name
 

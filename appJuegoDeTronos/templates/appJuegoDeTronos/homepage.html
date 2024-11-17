@@ -22,34 +22,38 @@
         <h2>Casas y Personajes Destacados</h2>
         <ul>
             {% for house, data in featured_characters.items %}
-            <li class="house-item">
-                <!-- Contenedor de imágenes -->
-                <div class="house-content">
-                    <!-- Imagen de la casa -->
-                    <div class="house-banner" style="background-image: url('{{ data.image_url }}');"></div>
-        
-                    <!-- Imagen del personaje destacado -->
-                    {% if data.character and data.character.image_url %}
-                    <div class="character-image" style="background-image: url('{{ data.character.image_url }}');"></div>
+            <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <!-- Imagen de la casa a la izquierda -->
+                <div style="flex: 1; text-align: center;">
+                    {% if data.house_image_url %}
+                        <img src="{{ data.house_image_url }}" alt="{{ house.name }}" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+                    {% else %}
+                        <p>Imagen de la casa no disponible</p>
                     {% endif %}
                 </div>
         
-                <!-- Información de la casa -->
-                <div class="house-details">
+                <!-- Detalles de la casa en el centro -->
+                <div style="flex: 2; margin-left: 1rem;">
                     <h3>{{ house.name }}</h3>
                     <p>{{ house.description }}</p>
-        
-                    <!-- Información del personaje destacado -->
                     {% if data.character %}
-                    <h4>Personaje Destacado: {{ data.character.name }}</h4>
-                    <p>{{ data.character.description }}</p>
+                        <h4>Personaje Destacado: {{ data.character.name }}</h4>
+                        <p>{{ data.character.description }}</p>
                     {% else %}
-                    <p>No hay personajes en esta casa.</p>
+                        <p>No hay personajes destacados en esta casa.</p>
                     {% endif %}
                 </div>
+        
+                <!-- Imagen del personaje a la derecha -->
+                {% if data.character_image_url %}
+                <div style="flex: 1; text-align: center;">
+                    <img src="{{ data.character_image_url }}" alt="{{ data.character.name }}" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+                </div>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
+        
         
     </main>
 </body>

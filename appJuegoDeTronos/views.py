@@ -2,18 +2,22 @@ from django.shortcuts import render, get_object_or_404
 from .models import Character, House, Season
 from django.templatetags.static import static
 # Vista para la página de inicio
+from django.conf import settings
+
 def homepage(request):
     houses = House.objects.all()
-    # Seleccionar personajes destacados y construir los datos para el template
     featured_characters = {
         house: {
             "character": house.characters.order_by('name').first(),
-            "image_url": static(f"media/casa_{house.name.lower()}.jpg"),
+            # Construimos la URL estática para las imágenes de las casas
+            "house_image_url": static(f"media/casa_{house.name.lower()}.jpg"),
+            # Construimos la URL para las imágenes de los personajes (si existe una imagen asociada)
+            "character_image_url": house.characters.order_by('name').first().image.url 
+                                   if house.characters.order_by('name').first() and house.characters.order_by('name').first().image else None,
         }
         for house in houses
     }
     return render(request, 'appJuegoDeTronos/homepage.html', {'featured_characters': featured_characters})
-    
 # Vista para la lista de personajes
 def characters_list(request):
     characters = Character.objects.all().order_by('name')  # Listar personajes alfabéticamente
