@@ -197,3 +197,60 @@ a:hover {
     border: 1px solid var(--dark-parchment); /* Borde decorativo */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
 }
+/* Contenedor del item */
+.house-item {
+    display: flex; /* Permite alinear los elementos horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    margin-bottom: 2rem; /* Espaciado entre items */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--parchment); /* Fondo claro para el item */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor de las imágenes */
+.house-content {
+    display: flex;
+    gap: 1rem; /* Espaciado entre imágenes */
+    margin-right: 2rem; /* Espaciado con los detalles */
+}
+
+/* Imagen de la casa */
+.house-banner {
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    border: 2px solid var(--dark-parchment);
+}
+
+/* Imagen del personaje */
+.character-image {
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%; /* Hace la imagen circular */
+    border: 2px solid var(--gold);
+}
+
+/* Contenedor de los detalles */
+.house-details {
+    flex: 1; /* Toma todo el espacio restante */
+}
+
+.house-details h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--lannister-red);
+    margin-bottom: 0.5rem;
+}
+
+.house-details h4 {
+    font-size: 1.2rem;
+    color: var(--stark-gray);
+    margin-top: 1rem;
+    font-weight: bold;
+}

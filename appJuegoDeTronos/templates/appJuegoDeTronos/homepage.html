@@ -22,19 +22,35 @@
         <h2>Casas y Personajes Destacados</h2>
         <ul>
             {% for house, data in featured_characters.items %}
-            <li>
-                <div class="house-banner" style="background-image: url('{{ data.image_url }}');"></div>
-                <h3>{{ house.name }}</h3>
-                <p>{{ house.description }}</p>
-                {% if data.character %}
+            <li class="house-item">
+                <!-- Contenedor de imágenes -->
+                <div class="house-content">
+                    <!-- Imagen de la casa -->
+                    <div class="house-banner" style="background-image: url('{{ data.image_url }}');"></div>
+        
+                    <!-- Imagen del personaje destacado -->
+                    {% if data.character and data.character.image_url %}
+                    <div class="character-image" style="background-image: url('{{ data.character.image_url }}');"></div>
+                    {% endif %}
+                </div>
+        
+                <!-- Información de la casa -->
+                <div class="house-details">
+                    <h3>{{ house.name }}</h3>
+                    <p>{{ house.description }}</p>
+        
+                    <!-- Información del personaje destacado -->
+                    {% if data.character %}
                     <h4>Personaje Destacado: {{ data.character.name }}</h4>
                     <p>{{ data.character.description }}</p>
-                {% else %}
+                    {% else %}
                     <p>No hay personajes en esta casa.</p>
-                {% endif %}
+                    {% endif %}
+                </div>
             </li>
             {% endfor %}
         </ul>
+        
     </main>
 </body>
 </html>
