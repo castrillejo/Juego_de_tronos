@@ -6,7 +6,6 @@
     <title>Game of Thrones - {{ character.name }}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    
 </head>
 <body>
     <header>
@@ -21,6 +20,14 @@
     <main>
         <h2>{{ character.name }}</h2>
         <p>{{ character.description }}</p>
+
+        <!-- Mostrar la imagen del personaje -->
+        {% if character_image_url %}
+            <img src="{{ character_image_url }}" alt="{{ character.name }}" style="width: 300px; height: auto;">
+        {% else %}
+            <p>Imagen no disponible</p>
+        {% endif %}
+        
         <h3>Casa: {{ character.house.name }}</h3>
         <h4>Temporadas:</h4>
         <ul>

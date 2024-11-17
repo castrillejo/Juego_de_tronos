@@ -12,5 +12,6 @@ urlpatterns = [
     path('seasons/', views.seasons_list, name='seasons_list'),
     path('seasons/<int:season_id>/', views.season_detail, name='season_detail'),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
