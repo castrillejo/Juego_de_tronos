@@ -21,7 +21,7 @@
 
 body {
  font-family: 'Lora', serif;
- background: var(--targaryen-black) url('/appJuegoDeTronos/static/media/fondo.jpg');
+ background: var(--targaryen-black) url('/static/media/fondo.jpg');
  color: #333;
  line-height: 1.6;
 }
@@ -184,4 +184,14 @@ a:hover {
  h3 {
  font-size: 1.5rem;
  }
+}
+.house-banner {
+    width: 100%; /* Ocupa todo el ancho del bloque */
+    height: 200px; /* Altura fija para las imágenes */
+    background-size: cover; /* Ajusta la imagen para cubrir el área */
+    background-position: center; /* Centra la imagen */
+    border-radius: 8px; /* Esquinas redondeadas */
+    margin-bottom: 1rem; /* Espaciado debajo de la imagen */
+    border: 1px solid var(--dark-parchment); /* Borde decorativo */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
 }

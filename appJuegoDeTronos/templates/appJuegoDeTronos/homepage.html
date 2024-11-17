@@ -12,10 +12,10 @@
     <header>
         <h1>Game of Thrones</h1>
         <nav>
-            <a href="/">Inicio</a> |
-            <a href="/characters/">Personajes</a> |
-            <a href="/houses/">Casas</a> |
-            <a href="/seasons/">Temporadas</a>
+            <a href="{% url 'homepage' %}">Inicio</a>
+            <a href="{% url 'characters_list' %}">Personajes</a>
+            <a href="{% url 'houses_list' %}">Casas</a>
+            <a href="{% url 'seasons_list' %}">Temporadas</a>
         </nav>
     </header>
     <main>
@@ -23,6 +23,7 @@
         <ul>
             {% for house, character in featured_characters.items %}
             <li>
+                <div class="house-banner" style="background-image: url('{{ data.image_url }}');"></div>
                 <h3>{{ house.name }}</h3>
                 <p>{{ house.description }}</p>
                 {% if character %}

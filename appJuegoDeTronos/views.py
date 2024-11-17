@@ -1,13 +1,19 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Character, House, Season
-
+from django.templatetags.static import static
 # Vista para la página de inicio
 def homepage(request):
     houses = House.objects.all()
-    # Seleccionamos un personaje destacado por casa
-    featured_characters = {house: house.characters.order_by('name').first() for house in houses}
+      # Seleccionamos un personaje destacado por casa
+    featured_characters = {
+        house: {
+            "character": house.characters.order_by('name').first(),
+            "image_url": static(f"media/casa_{house.name.lower()}.jpg")
+        }
+        for house in houses
+    }
     return render(request, 'appJuegoDeTronos/homepage.html', {'featured_characters': featured_characters})
-
+  
 # Vista para la lista de personajes
 def characters_list(request):
     characters = Character.objects.all().order_by('name')  # Listar personajes alfabéticamente

@@ -11,12 +11,10 @@
     <header>
         <h1>Game of Thrones</h1>
         <nav>
-            <ul>
-                <li><a href="{% url 'homepage' %}">Inicio</a></li>
-                <li><a href="{% url 'characters_list' %}">Personajes</a></li>
-                <li><a href="{% url 'houses_list' %}">Casas</a></li>
-                <li><a href="{% url 'seasons_list' %}">Temporadas</a></li>
-            </ul>
+            <a href="{% url 'homepage' %}">Inicio</a>
+            <a href="{% url 'characters_list' %}">Personajes</a>
+            <a href="{% url 'houses_list' %}">Casas</a>
+            <a href="{% url 'seasons_list' %}">Temporadas</a>
         </nav>
     </header>
     <main>
