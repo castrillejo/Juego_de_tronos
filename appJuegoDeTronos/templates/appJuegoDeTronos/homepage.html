@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Game of Thrones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Game of Thrones</h1>
+        <nav>
+            <a href="/">Inicio</a> |
+            <a href="/characters/">Personajes</a> |
+            <a href="/houses/">Casas</a> |
+            <a href="/seasons/">Temporadas</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Casas y Personajes Destacados</h2>
+        <ul>
+            {% for house, character in featured_characters.items %}
+            <li>
+                <h3>{{ house.name }}</h3>
+                <p>{{ house.description }}</p>
+                {% if character %}
+                    <h4>Personaje Destacado: {{ character.name }}</h4>
+                    <p>{{ character.description }}</p>
+                {% else %}
+                    <p>No hay personajes en esta casa.</p>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>

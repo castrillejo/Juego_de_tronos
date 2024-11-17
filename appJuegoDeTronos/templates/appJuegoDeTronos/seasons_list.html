@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of Thrones - Temporadas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
+        h1, h2, h3 { color: #2c3e50; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: #fff; border: 1px solid #ddd; margin: 10px 0; padding: 15px; border-radius: 5px; }
+        header { margin-bottom: 20px; }
+        nav ul { display: flex; gap: 15px; }
+        nav ul li { display: inline; }
+        nav a { text-decoration: none; color: #2c3e50; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Game of Thrones</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Inicio</a></li>
+                <li><a href="{% url 'characters_list' %}">Personajes</a></li>
+                <li><a href="{% url 'houses_list' %}">Casas</a></li>
+                <li><a href="{% url 'seasons_list' %}">Temporadas</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Lista de Temporadas</h2>
+        <ul>
+            {% for season in seasons %}
+            <li>
+                <a href="{% url 'season_detail' season.id %}">
+                    <h3>Temporada {{ season.number }}</h3>
+                </a>
+                <p>{{ season.description }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>
