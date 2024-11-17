@@ -6,7 +6,6 @@
     <title>Game of Thrones - Temporada {{ season.number }}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
 </head>
 <body>
     <header>
@@ -23,8 +22,8 @@
         <p>{{ season.description }}</p>
         <h3>Personajes:</h3>
         <ul>
-            {% for character in season.characters.all %}
-            <li>{{ character.name }}</li>
+            {% for character in characters %}
+            <li>{{ character.name }} - {{ character.description }}</li>
             {% endfor %}
         </ul>
     </main>

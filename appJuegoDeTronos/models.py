@@ -6,15 +6,16 @@ class House(models.Model):
     image = models.ImageField(upload_to='', null=True, blank=True)
     def __str__(self):
         return self.name
-
 class Character(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     house = models.ForeignKey('House', null=True, blank=True, on_delete=models.SET_NULL, related_name='characters')
-    seasons = models.ManyToManyField('Season')
+    seasons = models.ManyToManyField('Season', related_name='characters')  # Asegúrate de que esto esté definido
     image = models.ImageField(upload_to='media/', null=True, blank=True)
+
     def __str__(self):
         return self.name
+
 
 class Season(models.Model):
     number = models.IntegerField()

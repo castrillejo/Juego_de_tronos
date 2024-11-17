@@ -20,12 +20,17 @@
     <main>
         <h2>Lista de Temporadas</h2>
         <ul>
-            {% for season in seasons %}
-            <li>
-                <a href="{% url 'season_detail' season.id %}">
-                    <h3>Temporada {{ season.number }}</h3>
-                </a>
-                <p>{{ season.description }}</p>
+            {% for season_data in seasons_with_images %}
+            <li style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="flex: 1;">
+                    <img src="{{ season_data.image_url }}" alt="Temporada {{ season_data.season.number }}" style="max-width: 150px; border-radius: 8px;">
+                </div>
+                <div style="flex: 2; padding-left: 20px;">
+                    <a href="{% url 'season_detail' season_data.season.id %}">
+                        <h3>Temporada {{ season_data.season.number }}</h3>
+                    </a>
+                    <p>{{ season_data.season.description }}</p>
+                </div>
             </li>
             {% endfor %}
         </ul>

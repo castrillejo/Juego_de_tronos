@@ -6,7 +6,6 @@
     <title>Game of Thrones - Casas</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
 </head>
 <body>
     <header>
@@ -21,15 +20,21 @@
     <main>
         <h2>Lista de Casas</h2>
         <ul>
-            {% for house in houses %}
-            <li>
-                <a href="{% url 'house_detail' house.id %}">
-                    <h3>{{ house.name }}</h3>
-                </a>
-                <p>{{ house.description }}</p>
+            {% for house_data in houses_with_images %}
+            <li style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="flex: 1;">
+                    <img src="{{ house_data.image_url }}" alt="{{ house_data.house.name }}" style="max-width: 150px; border-radius: 8px;">
+                </div>
+                <div style="flex: 2; padding-left: 20px;">
+                    <a href="{% url 'house_detail' house_data.house.id %}">
+                        <h3>{{ house_data.house.name }}</h3>
+                    </a>
+                    <p>{{ house_data.house.description }}</p>
+                </div>
             </li>
             {% endfor %}
         </ul>
     </main>
 </body>
 </html>
+

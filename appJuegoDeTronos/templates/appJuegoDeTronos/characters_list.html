@@ -6,7 +6,6 @@
     <title>Game of Thrones - Personajes</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-   
 </head>
 <body>
     <header>
@@ -22,11 +21,18 @@
         <h2>Lista de Personajes</h2>
         <ul>
             {% for character in characters %}
-            <li>
-                <a href="{% url 'character_detail' character.id %}">
-                    <h3>{{ character.name }}</h3>
-                </a>
-                <p>{{ character.description }}</p>
+            <li style="display: flex; align-items: center; margin-bottom: 20px;">
+                {% if character.image %}
+                    <img src="{{ character.image.url }}" alt="{{ character.name }}" style="width: 100px; height: 100px; margin-right: 20px;">
+                {% else %}
+                    <p>Sin imagen</p>
+                {% endif %}
+                <div>
+                    <a href="{% url 'character_detail' character.id %}">
+                        <h3>{{ character.name }}</h3>
+                    </a>
+                    <p>{{ character.description }}</p>
+                </div>
             </li>
             {% endfor %}
         </ul>

@@ -28,22 +28,38 @@ def character_detail(request, character_id):
     character = get_object_or_404(Character, id=character_id)
     return render(request, 'appJuegoDeTronos/character_detail.html', {'character': character})
 
-# Vista para la lista de casas
 def houses_list(request):
     houses = House.objects.all().order_by('name')  # Listar casas alfabéticamente
-    return render(request, 'appJuegoDeTronos/houses_list.html', {'houses': houses})
-
+    houses_with_images = [
+        {
+            "house": house,
+            "image_url": static(f"media/casa_{house.name.lower()}.jpg"),  # Ruta de la imagen de la casa
+        }
+        for house in houses
+    ]
+    return render(request, 'appJuegoDeTronos/houses_list.html', {'houses_with_images': houses_with_images})
 # Vista para el detalle de una casa
 def house_detail(request, house_id):
     house = get_object_or_404(House, id=house_id)
     return render(request, 'appJuegoDeTronos/house_detail.html', {'house': house})
 
 # Vista para la lista de temporadas
+
 def seasons_list(request):
     seasons = Season.objects.all().order_by('number')  # Listar temporadas en orden numérico
-    return render(request, 'appJuegoDeTronos/seasons_list.html', {'seasons': seasons})
-
+    seasons_with_images = [
+        {
+            "season": season,
+            "image_url": static(f"media/season_{season.number}.jpg"),  # Ruta de la imagen de la temporada
+        }
+        for season in seasons
+    ]
+    return render(request, 'appJuegoDeTronos/seasons_list.html', {'seasons_with_images': seasons_with_images})
 # Vista para el detalle de una temporada
 def season_detail(request, season_id):
-    season = get_object_or_404(Season, id=season_id)
-    return render(request, 'appJuegoDeTronos/season_detail.html', {'season': season})
+    season = Season.objects.get(id=season_id)
+    characters = Character.objects.filter(seasons=season)  # Obtener personajes relacionados con la temporada
+    return render(request, 'appJuegoDeTronos/season_detail.html', {
+        'season': season,
+        'characters': characters
+    })
