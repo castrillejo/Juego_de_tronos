@@ -20,11 +20,13 @@
 }
 
 body {
- font-family: 'Lora', serif;
- background: var(--targaryen-black) url('/static/media/fondo.jpg');
- color: #333;
- line-height: 1.6;
+    font-family: 'Lora', serif;
+    background: var(--targaryen-black) url('/static/media/fondo.jpg') no-repeat center center;
+    background-size: cover; /* Escala la imagen para que cubra todo el fondo */
+    color: #333;
+    line-height: 1.6;
 }
+
 
 /* Header y Navegación */
 header {

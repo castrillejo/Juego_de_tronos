@@ -4,16 +4,16 @@ from django.templatetags.static import static
 # Vista para la página de inicio
 def homepage(request):
     houses = House.objects.all()
-      # Seleccionamos un personaje destacado por casa
+    # Seleccionar personajes destacados y construir los datos para el template
     featured_characters = {
         house: {
             "character": house.characters.order_by('name').first(),
-            "image_url": static(f"media/casa_{house.name.lower()}.jpg")
+            "image_url": static(f"media/casa_{house.name.lower()}.jpg"),
         }
         for house in houses
     }
     return render(request, 'appJuegoDeTronos/homepage.html', {'featured_characters': featured_characters})
-  
+    
 # Vista para la lista de personajes
 def characters_list(request):
     characters = Character.objects.all().order_by('name')  # Listar personajes alfabéticamente

@@ -21,14 +21,14 @@
     <main>
         <h2>Casas y Personajes Destacados</h2>
         <ul>
-            {% for house, character in featured_characters.items %}
+            {% for house, data in featured_characters.items %}
             <li>
                 <div class="house-banner" style="background-image: url('{{ data.image_url }}');"></div>
                 <h3>{{ house.name }}</h3>
                 <p>{{ house.description }}</p>
-                {% if character %}
-                    <h4>Personaje Destacado: {{ character.name }}</h4>
-                    <p>{{ character.description }}</p>
+                {% if data.character %}
+                    <h4>Personaje Destacado: {{ data.character.name }}</h4>
+                    <p>{{ data.character.description }}</p>
                 {% else %}
                     <p>No hay personajes en esta casa.</p>
                 {% endif %}
