@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game of Thrones - {{ character.name }}</title>
+    <title>{{ character.name }} - Game of Thrones</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
@@ -18,23 +18,50 @@
         </nav>
     </header>
     <main>
+        <!-- Título del personaje -->
         <h2>{{ character.name }}</h2>
         <p>{{ character.description }}</p>
 
-        <!-- Mostrar la imagen del personaje -->
+        <!-- Imagen del personaje -->
         {% if character_image_url %}
-            <img src="{{ character_image_url }}" alt="{{ character.name }}" style="width: 300px; height: auto;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="{{ character_image_url }}" alt="{{ character.name }}" style="width: 300px; height: auto; border-radius: 10px;">
+            </div>
         {% else %}
-            <p>Imagen no disponible</p>
+            <p style="text-align: center;">Imagen no disponible</p>
         {% endif %}
-        
-        <h3>Casa: {{ character.house.name }}</h3>
+
+        <!-- Información de la casa -->
+        {% if house_data %}
+            <h3>Casa:</h3>
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <!-- Imagen de la casa -->
+                {% if house_data.image_url %}
+                    <div style="flex: 1; text-align: center;">
+                        <img src="{{ house_data.image_url }}" alt="{{ house_data.name }}" style="width: 200px; height: auto; border-radius: 10px;">
+                    </div>
+                {% endif %}
+                <!-- Detalles de la casa -->
+                <div style="flex: 2; margin-left: 20px;">
+                    <h4>{{ house_data.name }}</h4>
+                    <p>{{ house_data.description }}</p>
+                </div>
+            </div>
+        {% else %}
+            <p>Este personaje no pertenece a ninguna casa.</p>
+        {% endif %}
+
+        <!-- Temporadas -->
         <h4>Temporadas:</h4>
-        <ul>
-            {% for season in character.seasons.all %}
-            <li>Temporada {{ season.number }}: {{ season.description }}</li>
-            {% endfor %}
-        </ul>
+        {% if seasons %}
+            <ul>
+                {% for season in seasons %}
+                <li>Temporada {{ season.number }}: {{ season.description }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay temporadas asociadas a este personaje.</p>
+        {% endif %}
     </main>
 </body>
 </html>

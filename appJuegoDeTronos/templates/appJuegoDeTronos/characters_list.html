@@ -20,18 +20,20 @@
     <main>
         <h2>Lista de Personajes</h2>
         <ul>
-            {% for character in characters %}
+            {% for data in characters_with_images %}
             <li style="display: flex; align-items: center; margin-bottom: 20px;">
-                {% if character.image %}
-                    <img src="{{ character.image.url }}" alt="{{ character.name }}" style="width: 100px; height: 100px; margin-right: 20px;">
+                <!-- Imagen del personaje -->
+                {% if data.image_url %}
+                    <img src="{{ data.image_url }}" alt="{{ data.character.name }}" style="width: 100px; height: 100px; margin-right: 20px;">
                 {% else %}
                     <p>Sin imagen</p>
                 {% endif %}
+                <!-- Detalles del personaje -->
                 <div>
-                    <a href="{% url 'character_detail' character.id %}">
-                        <h3>{{ character.name }}</h3>
+                    <a href="{% url 'character_detail' data.character.id %}">
+                        <h3>{{ data.character.name }}</h3>
                     </a>
-                    <p>{{ character.description }}</p>
+                    <p>{{ data.character.description }}</p>
                 </div>
             </li>
             {% endfor %}
