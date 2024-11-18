@@ -1,0 +1,99 @@
+Django==5.1.3
+asgiref==3.8.1
+sqlparse==0.5.2
+tzdata==2024.2
+
+
+python manage.py shell
+from appJuegoDeTronos.models import Character, House, Season
+
+stark = House.objects.get(name="Stark")
+lannister = House.objects.get(name="Lannister")
+targaryen = House.objects.get(name="Targaryen")
+baratheon = House.objects.get(name="Baratheon")
+greyjoy = House.objects.get(name="Greyjoy")
+tyrell = House.objects.get(name="Tyrell")
+martell = House.objects.get(name="Martell")
+
+season1 = Season.objects.get(number=1)
+season2 = Season.objects.get(number=2)
+season3 = Season.objects.get(number=3)
+season4 = Season.objects.get(number=4)
+season5 = Season.objects.get(number=5)
+season6 = Season.objects.get(number=6)
+season7 = Season.objects.get(number=7)
+
+Nuevos personajes
+new_characters = [
+    {"name": "Jon Snow", "description": "The Bastard of Winterfell", "house": stark, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Arya Stark", "description": "The Faceless Assassin", "house": stark, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Sansa Stark", "description": "The Lady of Winterfell", "house": stark, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Tyrion Lannister", "description": "The Imp", "house": lannister, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Jaime Lannister", "description": "The Kingslayer", "house": lannister, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Cersei Lannister", "description": "The Queen", "house": lannister, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Daenerys Targaryen", "description": "Mother of Dragons", "house": targaryen, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Jorah Mormont", "description": "The Exiled Knight", "house": targaryen, "seasons": [season1, season2, season3, season4, season5, season6]},
+    {"name": "Robert Baratheon", "description": "The Usurper King", "house": baratheon, "seasons": [season1]},
+    {"name": "Stannis Baratheon", "description": "The True King", "house": baratheon, "seasons": [season2, season3, season4, season5]},
+    {"name": "Theon Greyjoy", "description": "The Turncloak", "house": greyjoy, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Margaery Tyrell", "description": "The Rose of Highgarden", "house": tyrell, "seasons": [season1, season2, season3, season4, season5, season6]},
+    {"name": "Oberyn Martell", "description": "The Red Viper", "house": martell, "seasons": [season4]},
+    {"name": "Bran Stark", "description": "The Three-Eyed Raven", "house": stark, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Sandor Clegane", "description": "The Hound", "house": None, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Petyr Baelish", "description": "Littlefinger", "house": None, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Brienne of Tarth", "description": "The Maid of Tarth", "house": None, "seasons": [season2, season3, season4, season5, season6, season7]},
+    {"name": "Khal Drogo", "description": "The Great Khal", "house": None, "seasons": [season1]},
+    {"name": "Samwell Tarly", "description": "The Loyal Friend", "house": None, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Gendry", "description": "The Blacksmith", "house": baratheon, "seasons": [season1, season2, season3, season7]},
+    {"name": "Melisandre", "description": "The Red Woman", "house": None, "seasons": [season2, season3, season4, season5, season6, season7]},
+    {"name": "Varys", "description": "The Spider", "house": None, "seasons": [season1, season2, season3, season4, season5, season6, season7]},
+    {"name": "Ygritte", "description": "The Wildling", "house": None, "seasons": [season2, season3, season4]},
+    {"name": "Tormund Giantsbane", "description": "The Wildling Leader", "house": None, "seasons": [season3, season4, season5, season6, season7]},
+    {"name": "Ellaria Sand", "description": "The Vengeful Paramour", "house": martell, "seasons": [season4, season5, season6, season7]},
+    {"name": "Ramsay Bolton", "description": "The Bastard of the Dreadfort", "house": None, "seasons": [season3, season4, season5, season6]},
+    {"name": "Roose Bolton", "description": "The Leech Lord", "house": None, "seasons": [season2, season3, season4, season5, season6]},
+    {"name": "Hodor", "description": "The Gentle Giant", "house": stark, "seasons": [season1, season2, season3, season4, season5, season6]},
+    {"name": "Joffrey Baratheon", "description": "The Boy King", "house": baratheon, "seasons": [season1, season2, season3, season4]},
+    {"name": "Tommen Baratheon", "description": "The Young King", "house": baratheon, "seasons": [season1, season4, season5, season6]},
+    {"name": "Daario Naharis", "description": "The Sellsword", "house": None, "seasons": [season3, season4, season5, season6]},
+    {"name": "Missandei", "description": "The Interpreter", "house": targaryen, "seasons": [season3, season4, season5, season6, season7]},
+    {"name": "Grey Worm", "description": "The Unsullied Commander", "house": targaryen, "seasons": [season3, season4, season5, season6, season7]},
+    {"name": "Euron Greyjoy", "description": "The Crow's Eye", "house": greyjoy, "seasons": [season6, season7]},
+    {"name": "Balon Greyjoy", "description": "The Kraken King", "house": greyjoy, "seasons": [season2, season3, season6]},
+    {"name": "Yara Greyjoy", "description": "The Ironborn Captain", "house": greyjoy, "seasons": [season2, season3, season6, season7]},
+    {"name": "Barristan Selmy", "description": "The Bold", "house": targaryen, "seasons": [season1, season2, season3, season4, season5]},
+    {"name": "Shae", "description": "The Lover", "house": None, "seasons": [season1, season2, season3, season4]},
+    {"name": "Lyanna Mormont", "description": "The Fierce Lady of Bear Island", "house": None, "seasons": [season6, season7]},
+    {"name": "Jojen Reed", "description": "The Greenseer", "house": None, "seasons": [season3, season4]},
+    {"name": "Meera Reed", "description": "The Protector", "house": None, "seasons": [season3, season4, season6, season7]},
+    {"name": "Rickon Stark", "description": "The Youngest Stark", "house": stark, "seasons": [season1, season2, season3, season6]},
+    {"name": "Maester Aemon", "description": "The Wise Maester", "house": targaryen, "seasons": [season1, season2, season3, season4, season5]},
+    {"name": "Gilly", "description": "The Wildling Mother", "house": None, "seasons": [season2, season3, season4, season5, season6, season7]},
+    {"name": "Grenn", "description": "The Strong Brother", "house": None, "seasons": [season1, season2, season3, season4]},
+    {"name": "Yoren", "description": "The Recruiter of the Night's Watch", "house": None, "seasons": [season1, season2]},
+    {"name": "Lysa Arryn", "description": "The Lady of the Eyrie", "house": None, "seasons": [season1, season4]},
+    {"name": "Robin Arryn", "description": "The Sickly Lord", "house": None, "seasons": [season1, season4, season6, season7]},
+    {"name": "Hot Pie", "description": "The Baker Boy", "house": None, "seasons": [season1, season2, season3, season7]},
+    {"name": "Osha", "description": "The Wildling Protector", "house": None, "seasons": [season1, season2, season3, season6]},
+    {"name": "Tywin Lannister", "description": "The Head of House Lannister", "house": lannister, "seasons": [season1, season2, season3, season4]},
+    {"name": "Kevan Lannister", "description": "The Dutiful Brother", "house": lannister, "seasons": [season1, season2, season5, season6]},
+    {"name": "Jaqen H'ghar", "description": "The Faceless Man", "house": None, "seasons": [season2, season5, season6]},
+    {"name": "Loras Tyrell", "description": "The Knight of Flowers", "house": tyrell, "seasons": [season1, season2, season3, season4, season5, season6]},
+    {"name": "High Sparrow", "description": "The Devout Leader", "house": None, "seasons": [season5, season6]},
+    {"name": "Podrick Payne", "description": "The Squire", "house": None, "seasons": [season2, season3, season4, season5, season6, season7]},
+    {"name": "Qyburn", "description": "The Master of Whispers", "house": None, "seasons": [season3, season4, season5, season6, season7]},
+    {"name": "Walder Frey", "description": "The Old Lord of the Crossing", "house": None, "seasons": [season1, season3, season6]},
+    {"name": "Edmure Tully", "description": "The Hapless Heir", "house": None, "seasons": [season3, season6]},
+    {"name": "Beric Dondarrion", "description": "The Lightning Lord", "house": None, "seasons": [season1, season3, season6, season7]},
+    {"name": "Thoros of Myr", "description": "The Red Priest", "house": None, "seasons": [season3, season6, season7]},
+]
+
+for char in new_characters:
+    character = Character.objects.create(
+        name=char["name"],
+        description=char["description"],
+        house=char["house"]
+    )
+    character.seasons.add(*char["seasons"])
+
+exit()
