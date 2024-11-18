@@ -9,16 +9,14 @@ def homepage(request):
     featured_characters = {
         house: {
             "character": house.characters.order_by('name').first(),
-            # Construir URL de la imagen de la casa
             "house_image_url": static(f"media/casa_{house.name.lower()}.jpg"),
-            # Construir URL de la imagen del personaje si existe
             "character_image_url": static(f"media/{house.characters.order_by('name').first().name.lower().replace(' ', '_')}.jpg")
                                    if house.characters.order_by('name').first() else None,
         }
         for house in houses
     }
     return render(request, 'appJuegoDeTronos/homepage.html', {'featured_characters': featured_characters})
-# Vista para la lista de personajes
+
 def characters_list(request):
     characters = Character.objects.all().order_by('name')
     characters_with_images = [
@@ -31,13 +29,8 @@ def characters_list(request):
     return render(request, 'appJuegoDeTronos/characters_list.html', {'characters_with_images': characters_with_images})
 
 def character_detail(request, character_id):
-    # Obtener el personaje o devolver un error 404
     character = get_object_or_404(Character, id=character_id)
-
-    # Generar la URL de la imagen del personaje (si existe)
     character_image_url = static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
-
-    # Obtener información de la casa del personaje
     house_data = None
     if character.house:
         house_data = {
@@ -45,11 +38,7 @@ def character_detail(request, character_id):
             "description": character.house.description,
             "image_url": static(f"media/casa_{character.house.name.lower().replace(' ', '_')}.jpg")
         }
-
-    # Obtener las temporadas en las que aparece el personaje
     seasons = character.seasons.all()
-
-    # Renderizar la página con los datos necesarios
     return render(request, 'appJuegoDeTronos/character_detail.html', {
         'character': character,
         'character_image_url': character_image_url,
@@ -58,11 +47,11 @@ def character_detail(request, character_id):
     })
 
 def houses_list(request):
-    houses = House.objects.all().order_by('name')  # Listar casas alfabéticamente
+    houses = House.objects.all().order_by('name') 
     houses_with_images = [
         {
             "house": house,
-            "image_url": static(f"media/casa_{house.name.lower()}.jpg"),  # Ruta de la imagen de la casa
+            "image_url": static(f"media/casa_{house.name.lower()}.jpg"),  
         }
         for house in houses
     ]
@@ -71,8 +60,6 @@ def houses_list(request):
 def house_detail(request, house_id):
     house = get_object_or_404(House, id=house_id)
     return render(request, 'appJuegoDeTronos/house_detail.html', {'house': house})
-
-# Vista para la lista de temporadas
 
 def seasons_list(request):
     seasons = Season.objects.all().order_by('number')  # Listar temporadas en orden numérico
