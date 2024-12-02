@@ -6,6 +6,51 @@
     <title>{{ character.name }} - Game of Thrones</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Estilos para el efecto de giro */
+        #character-image-container {
+            perspective: 1000px; /* Necesario para el efecto 3D */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #character-image-wrapper {
+            width: 300px;
+            height: auto;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            border-radius: 10px;
+        }
+
+        #character-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            backface-visibility: hidden;
+        }
+
+        #info-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro para el texto */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 10px;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+        }
+
+        .rotated {
+            transform: rotateY(180deg);
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -22,10 +67,13 @@
         <h2>{{ character.name }}</h2>
         <p>{{ character.description }}</p>
 
-        <!-- Imagen del personaje -->
+        <!-- Imagen del personaje y texto al hacer clic -->
         {% if character_image_url %}
-            <div style="text-align: center; margin-bottom: 20px;">
-                <img src="{{ character_image_url }}" alt="{{ character.name }}" style="width: 300px; height: auto; border-radius: 10px;">
+            <div id="character-image-container">
+                <div id="character-image-wrapper">
+                    <img id="character-image" src="{{ character_image_url }}" alt="{{ character.name }}">
+                    <div id="info-text" style="display: none;">valar morghulis</div> <!-- Texto detrás de la imagen -->
+                </div>
             </div>
         {% else %}
             <p style="text-align: center;">Imagen no disponible</p>
@@ -56,12 +104,32 @@
         {% if seasons %}
             <ul>
                 {% for season in seasons %}
-                <li>Temporada {{ season.number }}: {{ season.description }}</li>
+                    <li>Temporada {{ season.number }}: {{ season.description }}</li>
                 {% endfor %}
             </ul>
         {% else %}
             <p>No hay temporadas asociadas a este personaje.</p>
         {% endif %}
     </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const characterImageWrapper = document.getElementById("character-image-wrapper");
+            const infoText = document.getElementById("info-text");
+
+            // Evento de clic en la imagen
+            characterImageWrapper.addEventListener("click", function() {
+                // Gira la tarjeta
+                characterImageWrapper.classList.toggle("rotated");
+
+                // Muestra o esconde el texto detrás de la imagen
+                if (infoText.style.display === "none") {
+                    infoText.style.display = "flex"; // Muestra el texto
+                } else {
+                    infoText.style.display = "none";  // Oculta el texto
+                }
+            });
+        });
+    </script>
 </body>
 </html>

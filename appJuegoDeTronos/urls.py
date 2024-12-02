@@ -4,14 +4,15 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
-    path('', views.homepage, name='homepage'),
-    path('characters/', views.characters_list, name='characters_list'),
-    path('characters/<int:character_id>/', views.character_detail, name='character_detail'),
-    path('houses/', views.houses_list, name='houses_list'),
-    path('houses/<int:house_id>/', views.house_detail, name='house_detail'),
-    path('seasons/', views.seasons_list, name='seasons_list'),
-    path('seasons/<int:season_id>/', views.season_detail, name='season_detail'),
+    path('', views.HomePageView.as_view(), name='homepage'),  # Cambiado a CBV
+    path('characters/', views.CharacterListView.as_view(), name='characters_list'),  # Cambiado a CBV
+    path('characters/<int:pk>/', views.CharacterDetailView.as_view(), name='character_detail'),  # Cambiado a CBV
+    path('houses/', views.HouseListView.as_view(), name='houses_list'),  # Cambiado a CBV
+    path('houses/<int:pk>/', views.HouseDetailView.as_view(), name='house_detail'),  # Cambiado a CBV
+    path('seasons/', views.SeasonListView.as_view(), name='seasons_list'),  # Cambiado a CBV
+    path('seasons/<int:pk>/', views.SeasonDetailView.as_view(), name='season_detail'),  # Cambiado a CBV
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
