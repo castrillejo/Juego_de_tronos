@@ -21,10 +21,10 @@
         <h2>Lista de Personajes</h2>
         <ul>
             {% for data in characters_with_images %}
-            <li style="display: flex; align-items: center; margin-bottom: 20px;">
+            <li class="character-item">
                 <!-- Imagen del personaje -->
                 {% if data.image_url %}
-                    <img src="{{ data.image_url }}" alt="{{ data.character.name }}" style="width: 100px; height: 100px; margin-right: 20px;">
+                    <img src="{{ data.image_url }}" alt="{{ data.character.name }}" class="character-image">
                 {% else %}
                     <p>Sin imagen</p>
                 {% endif %}

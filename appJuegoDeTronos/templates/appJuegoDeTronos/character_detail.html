@@ -6,51 +6,6 @@
     <title>{{ character.name }} - Game of Thrones</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        /* Estilos para el efecto de giro */
-        #character-image-container {
-            perspective: 1000px; /* Necesario para el efecto 3D */
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        #character-image-wrapper {
-            width: 300px;
-            height: auto;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 1s;
-            border-radius: 10px;
-        }
-
-        #character-image {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            backface-visibility: hidden;
-        }
-
-        #info-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro para el texto */
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-radius: 10px;
-            transform: rotateY(180deg);
-            backface-visibility: hidden;
-        }
-
-        .rotated {
-            transform: rotateY(180deg);
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -72,25 +27,23 @@
             <div id="character-image-container">
                 <div id="character-image-wrapper">
                     <img id="character-image" src="{{ character_image_url }}" alt="{{ character.name }}">
-                    <div id="info-text" style="display: none;">valar morghulis</div> <!-- Texto detrás de la imagen -->
+                    <div id="info-text" class="rotated-text">valar morghulis</div>
                 </div>
             </div>
         {% else %}
-            <p style="text-align: center;">Imagen no disponible</p>
+            <p class="text-center">Imagen no disponible</p>
         {% endif %}
 
         <!-- Información de la casa -->
         {% if house_data %}
             <h3>Casa:</h3>
-            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                <!-- Imagen de la casa -->
+            <div class="house-details-container">
                 {% if house_data.image_url %}
-                    <div style="flex: 1; text-align: center;">
-                        <img src="{{ house_data.image_url }}" alt="{{ house_data.name }}" style="width: 200px; height: auto; border-radius: 10px;">
+                    <div class="text-center house-image-container">
+                        <img src="{{ house_data.image_url }}" alt="{{ house_data.name }}">
                     </div>
                 {% endif %}
-                <!-- Detalles de la casa -->
-                <div style="flex: 2; margin-left: 20px;">
+                <div class="house-description-container">
                     <h4>{{ house_data.name }}</h4>
                     <p>{{ house_data.description }}</p>
                 </div>
@@ -117,16 +70,13 @@
             const characterImageWrapper = document.getElementById("character-image-wrapper");
             const infoText = document.getElementById("info-text");
 
-            // Evento de clic en la imagen
             characterImageWrapper.addEventListener("click", function() {
-                // Gira la tarjeta
                 characterImageWrapper.classList.toggle("rotated");
 
-                // Muestra o esconde el texto detrás de la imagen
                 if (infoText.style.display === "none") {
-                    infoText.style.display = "flex"; // Muestra el texto
+                    infoText.style.display = "flex";
                 } else {
-                    infoText.style.display = "none";  // Oculta el texto
+                    infoText.style.display = "none";
                 }
             });
         });

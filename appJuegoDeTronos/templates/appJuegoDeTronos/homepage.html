@@ -6,7 +6,6 @@
     <title>Inicio - Game of Thrones</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    
 </head>
 <body>
     <header>
@@ -18,22 +17,19 @@
             <a href="{% url 'seasons_list' %}">Temporadas</a>
         </nav>
     </header>
-    <main>
+    <main class="homepage-featured">
         <h2>Casas y Personajes Destacados</h2>
         <ul>
             {% for house, data in featured_characters.items %}
-            <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <!-- Imagen de la casa a la izquierda -->
-                <div style="flex: 1; text-align: center;">
+            <li class="homepage-featured-item">
+                <div class="house-image">
                     {% if data.house_image_url %}
-                        <img src="{{ data.house_image_url }}" alt="{{ house.name }}" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ data.house_image_url }}" alt="{{ house.name }}">
                     {% else %}
                         <p>Imagen de la casa no disponible</p>
                     {% endif %}
                 </div>
-        
-                <!-- Detalles de la casa en el centro -->
-                <div style="flex: 2; margin-left: 1rem;">
+                <div class="homepage-featured-details">
                     <h3>{{ house.name }}</h3>
                     <p>{{ house.description }}</p>
                     {% if data.character %}
@@ -43,18 +39,15 @@
                         <p>No hay personajes destacados en esta casa.</p>
                     {% endif %}
                 </div>
-        
-                <!-- Imagen del personaje a la derecha -->
                 {% if data.character_image_url %}
-                <div style="flex: 1; text-align: center;">
-                    <img src="{{ data.character_image_url }}" alt="{{ data.character.name }}" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+                <div class="character-image">
+                    <img src="{{ data.character_image_url }}" alt="{{ data.character.name }}">
                 </div>
                 {% endif %}
             </li>
             {% endfor %}
         </ul>
-        
-        
     </main>
+    
 </body>
 </html>

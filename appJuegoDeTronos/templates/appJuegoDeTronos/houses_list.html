@@ -21,11 +21,11 @@
         <h2>Lista de Casas</h2>
         <ul>
             {% for house_data in houses_with_images %}
-            <li style="display: flex; align-items: center; margin-bottom: 20px;">
-                <div style="flex: 1;">
-                    <img src="{{ house_data.image_url }}" alt="{{ house_data.house.name }}" style="max-width: 150px; border-radius: 8px;">
+            <li class="house-item">
+                <div class="house-image">
+                    <img src="{{ house_data.image_url }}" alt="{{ house_data.house.name }}">
                 </div>
-                <div style="flex: 2; padding-left: 20px;">
+                <div class="house-details">
                     <a href="{% url 'house_detail' house_data.house.id %}">
                         <h3>{{ house_data.house.name }}</h3>
                     </a>
@@ -37,4 +37,3 @@
     </main>
 </body>
 </html>
-

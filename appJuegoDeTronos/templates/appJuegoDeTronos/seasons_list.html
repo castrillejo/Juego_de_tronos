@@ -21,11 +21,11 @@
         <h2>Lista de Temporadas</h2>
         <ul>
             {% for season_data in seasons_with_images %}
-            <li style="display: flex; align-items: center; margin-bottom: 20px;">
-                <div style="flex: 1;">
-                    <img src="{{ season_data.image_url }}" alt="Temporada {{ season_data.season.number }}" style="max-width: 150px; border-radius: 8px;">
+            <li class="season-item">
+                <div class="season-image">
+                    <img src="{{ season_data.image_url }}" alt="Temporada {{ season_data.season.number }}">
                 </div>
-                <div style="flex: 2; padding-left: 20px;">
+                <div class="season-details">
                     <a href="{% url 'season_detail' season_data.season.id %}">
                         <h3>Temporada {{ season_data.season.number }}</h3>
                     </a>
