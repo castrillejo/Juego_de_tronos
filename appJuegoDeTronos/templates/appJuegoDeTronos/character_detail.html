@@ -7,7 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
+<body class = "character-detail-page">
     <header>
         <h1>Game of Thrones</h1>
         <nav>
@@ -22,7 +22,7 @@
         <h2>{{ character.name }}</h2>
         <p>{{ character.description }}</p>
 
-        <!-- Imagen del personaje y texto al hacer clic -->
+        <!-- Imagen del personaje -->
         {% if character_image_url %}
             <div id="character-image-container">
                 <div id="character-image-wrapper">
@@ -40,7 +40,7 @@
             <div class="house-details-container">
                 {% if house_data.image_url %}
                     <div class="text-center house-image-container">
-                        <img src="{{ house_data.image_url }}" alt="{{ house_data.name }}">
+                        <img src="{{ house_data.image_url }}" alt="{{ house_data.name }}" class="house-image">
                     </div>
                 {% endif %}
                 <div class="house-description-container">
