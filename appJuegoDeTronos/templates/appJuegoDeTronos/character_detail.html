@@ -7,7 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body class = "character-detail-page">
+<body class="character-detail-page">
     <header>
         <h1>Game of Thrones</h1>
         <nav>
@@ -18,23 +18,22 @@
         </nav>
     </header>
     <main>
-        <!-- Título del personaje -->
+        <!--Título del personaje-->
         <h2>{{ character.name }}</h2>
-        <p>{{ character.description }}</p>
 
-        <!-- Imagen del personaje -->
+        <!--Contenedor de imagen y descripción-->
         {% if character_image_url %}
             <div id="character-image-container">
                 <div id="character-image-wrapper">
                     <img id="character-image" src="{{ character_image_url }}" alt="{{ character.name }}">
-                    <div id="info-text" class="rotated-text">valar morghulis</div>
                 </div>
+                <p class="character-description">{{ character.description }}</p>
             </div>
         {% else %}
             <p class="text-center">Imagen no disponible</p>
         {% endif %}
 
-        <!-- Información de la casa -->
+        <!--Información de la casa-->
         {% if house_data %}
             <h3>Casa:</h3>
             <div class="house-details-container">
@@ -44,7 +43,11 @@
                     </div>
                 {% endif %}
                 <div class="house-description-container">
-                    <h4>{{ house_data.name }}</h4>
+                    {% if house_data.id %}
+                        <h4><a href="{% url 'house_detail' house_data.id %}">{{ house_data.name }}</a></h4>
+                    {% else %}
+                        <h4>{{ house_data.name }}</h4>
+                    {% endif %}
                     <p>{{ house_data.description }}</p>
                 </div>
             </div>
@@ -52,12 +55,14 @@
             <p>Este personaje no pertenece a ninguna casa.</p>
         {% endif %}
 
-        <!-- Temporadas -->
+        <!--Temporadas-->
         <h4>Temporadas:</h4>
         {% if seasons %}
             <ul>
                 {% for season in seasons %}
-                    <li>Temporada {{ season.number }}: {{ season.description }}</li>
+                    <li>
+                        <a href="{% url 'season_detail' season.id %}">Temporada {{ season.number }}</a>: {{ season.description }}
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}

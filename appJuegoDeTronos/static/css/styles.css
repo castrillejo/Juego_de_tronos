@@ -199,12 +199,33 @@ a:hover {
     color: var(--stark-gray);
 }
 
-/* Estilos para el efecto de giro del personaje */
+/* Contenedor de imagen y descripción del personaje */
 #character-image-container {
-    perspective: 3000px;
-    text-align: center;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; 
+    margin-bottom: 2rem;
 }
+
+/* Imagen del personaje */
+#character-image {
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+}
+
+/* Descripción del personaje */
+.character-description {
+    font-family: 'Cinzel', serif; 
+    font-size: 1.8rem;
+    color: #8B0000; 
+    font-weight: bold;
+    line-height: 1.6; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+}
+
 
 #character-image-wrapper {
     width: 400px;
@@ -214,14 +235,6 @@ a:hover {
     transition: transform 1s;
     border-radius: 10px;
     overflow: hidden;
-}
-
-#character-image {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    backface-visibility: hidden;
-    object-fit: cover;
 }
 
 #info-text {
@@ -409,6 +422,23 @@ a:hover {
     text-align: left;
     flex: 2;
 }
+
+/* Estilo para la descripción de la temporada */
+.season-description {
+    font-family: 'Cinzel', serif; 
+    font-size: 1.9rem;
+    color: #3D2C1D;
+    text-align: center;
+    margin: 1.5rem 0;
+    background: linear-gradient(90deg, #FEEBC8, #F6C177); 
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); 
+    border: 2px solid #D1A055; 
+    letter-spacing: 1px; 
+}
+
+
 
 /* Responsive */
 @media (max-width: 768px) {

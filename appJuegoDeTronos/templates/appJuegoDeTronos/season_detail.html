@@ -7,7 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body class = "season-detail-page">
+<body class="season-detail-page">
     <header>
         <h1>Game of Thrones</h1>
         <nav>
@@ -19,11 +19,17 @@
     </header>
     <main>
         <h2>Temporada {{ season.number }}</h2>
-        <p>{{ season.description }}</p>
+        <!--Descripción de la temporada-->
+        <div class="season-description">{{ season.description }}
+
+        </div>
+
         <h3>Personajes:</h3>
         <ul>
             {% for character in characters %}
-            <li>{{ character.name }} - {{ character.description }}</li>
+            <li>
+                <a href="{% url 'character_detail' character.id %}">{{ character.name }}</a> - {{ character.description }}
+            </li>
             {% endfor %}
         </ul>
     </main>

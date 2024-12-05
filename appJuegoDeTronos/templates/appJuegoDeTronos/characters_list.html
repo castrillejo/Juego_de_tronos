@@ -22,13 +22,13 @@
         <ul>
             {% for data in characters_with_images %}
             <li class="character-item">
-                <!-- Imagen del personaje -->
+                <!--Imagen del personaje-->
                 {% if data.image_url %}
                     <img src="{{ data.image_url }}" alt="{{ data.character.name }}" class="character-image">
                 {% else %}
                     <p>Sin imagen</p>
                 {% endif %}
-                <!-- Detalles del personaje -->
+                <!--Detalles del personaje-->
                 <div>
                     <a href="{% url 'character_detail' data.character.id %}">
                         <h3>{{ data.character.name }}</h3>

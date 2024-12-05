@@ -7,7 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body class = "house-detail-page">
+<body class="house-detail-page">
     <header>
         <h1>Game of Thrones</h1>
         <nav>
@@ -20,13 +20,15 @@
     <main>
         <h2>{{ house.name }}</h2>
         <p>{{ house.description }}</p>
+
         <h3>Personajes:</h3>
         <ul>
             {% for character in house.characters.all %}
-            <li>{{ character.name }}</li>
+            <li>
+                <a href="{% url 'character_detail' character.id %}">{{ character.name }}</a>
+            </li>
             {% endfor %}
         </ul>
     </main>
 </body>
 </html>
-    

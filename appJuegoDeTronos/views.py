@@ -52,6 +52,7 @@ class CharacterDetailView(DetailView):
         house_data = None
         if character.house:
             house_data = {
+                "id":character.house.id,
                 "name": character.house.name,
                 "description": character.house.description,
                 "image_url": static(f"media/casa_{character.house.name.lower().replace(' ', '_')}.jpg")
