@@ -11,7 +11,8 @@ urlpatterns = [
     path('houses/<int:pk>/', views.HouseDetailView.as_view(), name='house_detail'),  # Cambiado a CBV
     path('seasons/', views.SeasonListView.as_view(), name='seasons_list'),  # Cambiado a CBV
     path('seasons/<int:pk>/', views.SeasonDetailView.as_view(), name='season_detail'),  # Cambiado a CBV
-]
+    path('add_character/', views.add_character_form, name='add_character'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

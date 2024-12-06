@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.templatetags.static import static
 from .models import Character, House, Season
+from django.http import HttpResponse
+from .forms import CharacterForm  
 
 # Vista para la página de inicio
 class HomePageView(TemplateView):
@@ -116,3 +118,18 @@ class SeasonDetailView(DetailView):
         characters = Character.objects.filter(seasons=season)  # Obtener personajes de la temporada
         context['characters'] = characters
         return context
+
+
+def add_character_form(request):
+    if request.method == "POST":
+        form = CharacterForm(request.POST, request.FILES)  # Asegúrate de pasar request.FILES para manejar las imágenes
+        if form.is_valid():
+            # Guarda el personaje y las temporadas seleccionadas
+            character = form.save(commit=False)  # No guardamos todavía el personaje
+            character.save()  # Ahora guardamos el personaje en la base de datos
+            form.save_m2m()  # Guarda las temporadas seleccionadas en la relación ManyToMany
+            return redirect('characters_list')  # Redirige a la lista de personajes o donde desees
+    else:
+        form = CharacterForm()  # Si es GET, muestra el formulario vacío
+
+    return render(request, 'add_character.html', {'form': form})
