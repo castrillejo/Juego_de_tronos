@@ -3,8 +3,17 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.templatetags.static import static
 from .models import Character, House, Season
 from django.http import HttpResponse
-from .forms import CharacterForm  
+from .forms import CharacterForm 
+from django.http import JsonResponse 
+from django.contrib import messages
 
+def character_info(request, character_id):
+    try:
+        character = Character.objects.get(id=character_id)
+        return JsonResponse({'is_alive': character.is_alive})
+    except Character.DoesNotExist:
+        return JsonResponse({'error': 'Character not found'}, status=404)
+    
 # Vista para la página de inicio
 class HomePageView(TemplateView):
     template_name = 'appJuegoDeTronos/homepage.html'
@@ -122,14 +131,14 @@ class SeasonDetailView(DetailView):
 
 def add_character_form(request):
     if request.method == "POST":
-        form = CharacterForm(request.POST, request.FILES)  # Asegúrate de pasar request.FILES para manejar las imágenes
+        form = CharacterForm(request.POST, request.FILES)
         if form.is_valid():
-            # Guarda el personaje y las temporadas seleccionadas
-            character = form.save(commit=False)  # No guardamos todavía el personaje
-            character.save()  # Ahora guardamos el personaje en la base de datos
-            form.save_m2m()  # Guarda las temporadas seleccionadas en la relación ManyToMany
-            return redirect('characters_list')  # Redirige a la lista de personajes o donde desees
+            character = form.save(commit=False)
+            character.save()
+            form.save_m2m()
+            messages.success(request, "El personaje ha sido añadido con éxito.")  # Mensaje de éxito
+            return redirect('characters_list')
     else:
-        form = CharacterForm()  # Si es GET, muestra el formulario vacío
+        form = CharacterForm()
 
-    return render(request, 'add_character.html', {'form': form})
+    return render(request, 'appJuegoDeTronos/add_character.html', {'form': form})

@@ -15,13 +15,14 @@
             <a href="{% url 'characters_list' %}">Personajes</a>
             <a href="{% url 'houses_list' %}">Casas</a>
             <a href="{% url 'seasons_list' %}">Temporadas</a>
+            <a href="{% url 'add_character' %}">Añadir Personaje</a>
         </nav>
     </header>
     <main>
-        <!--Título del personaje-->
+        <!-- Título del personaje -->
         <h2>{{ character.name }}</h2>
 
-        <!--Contenedor de imagen y descripción-->
+        <!-- Contenedor de imagen y descripción -->
         {% if character_image_url %}
             <div id="character-image-container">
                 <div id="character-image-wrapper">
@@ -33,7 +34,7 @@
             <p class="text-center">Imagen no disponible</p>
         {% endif %}
 
-        <!--Información de la casa-->
+        <!-- Información de la casa -->
         {% if house_data %}
             <h3>Casa:</h3>
             <div class="house-details-container">
@@ -55,7 +56,7 @@
             <p>Este personaje no pertenece a ninguna casa.</p>
         {% endif %}
 
-        <!--Temporadas-->
+        <!-- Temporadas -->
         <h4>Temporadas:</h4>
         {% if seasons %}
             <ul>
@@ -68,23 +69,14 @@
         {% else %}
             <p>No hay temporadas asociadas a este personaje.</p>
         {% endif %}
+
+        <!-- Botón para consultar si está vivo -->
+    <button id="check-alive-button" data-character-id="{{ character.id }}">¿Quieres saber si está vivo?</button>
+    <p id="alive-status"></p>
+
     </main>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const characterImageWrapper = document.getElementById("character-image-wrapper");
-            const infoText = document.getElementById("info-text");
-
-            characterImageWrapper.addEventListener("click", function() {
-                characterImageWrapper.classList.toggle("rotated");
-
-                if (infoText.style.display === "none") {
-                    infoText.style.display = "flex";
-                } else {
-                    infoText.style.display = "none";
-                }
-            });
-        });
-    </script>
+    <!-- Script de JavaScript -->
+    <script src="{% static 'js/character_detail.js' %}"></script>
 </body>
 </html>
