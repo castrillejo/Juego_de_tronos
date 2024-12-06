@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
 from django.templatetags.static import static
 from .models import Character, House, Season
@@ -9,17 +9,33 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        house_filter = self.request.GET.get('house', None)
+
         houses = House.objects.all()
-        featured_characters = {
-            house: {
-                "character": house.characters.order_by('name').first(),
-                "house_image_url": static(f"media/casa_{house.name.lower()}.jpg"),
-                "character_image_url": static(f"media/{house.characters.order_by('name').first().name.lower().replace(' ', '_')}.jpg")
-                    if house.characters.order_by('name').first() else None,
+        featured_characters = {}
+
+        if house_filter:
+            selected_house = houses.filter(name=house_filter).first()
+            if selected_house:
+                featured_characters[selected_house] = {
+                    "character": selected_house.characters.order_by('name').first(),
+                    "house_image_url": static(f"media/casa_{selected_house.name.lower()}.jpg"),
+                    "character_image_url": static(f"media/{selected_house.characters.order_by('name').first().name.lower().replace(' ', '_')}.jpg")
+                        if selected_house.characters.exists() else None,
+                }
+        else:
+            featured_characters = {
+                house: {
+                    "character": house.characters.order_by('name').first(),
+                    "house_image_url": static(f"media/casa_{house.name.lower()}.jpg"),
+                    "character_image_url": static(f"media/{house.characters.order_by('name').first().name.lower().replace(' ', '_')}.jpg")
+                        if house.characters.exists() else None,
+                }
+                for house in houses
             }
-            for house in houses
-        }
+
         context['featured_characters'] = featured_characters
+        context['houses'] = houses
         return context
 
 # Vista para la lista de personajes
@@ -43,6 +59,9 @@ class CharacterDetailView(DetailView):
     model = Character
     template_name = 'appJuegoDeTronos/character_detail.html'
     context_object_name = 'character'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Character, pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -88,6 +107,9 @@ class HouseDetailView(DetailView):
     template_name = 'appJuegoDeTronos/house_detail.html'
     context_object_name = 'house'
 
+    def get_object(self, queryset=None):
+        return get_object_or_404(House, pk=self.kwargs['pk'])
+
 # Vista para la lista de temporadas
 class SeasonListView(ListView):
     model = Season
@@ -110,9 +132,12 @@ class SeasonDetailView(DetailView):
     template_name = 'appJuegoDeTronos/season_detail.html'
     context_object_name = 'season'
 
+    def get_object(self, queryset=None):
+        return get_object_or_404(Season, pk=self.kwargs['pk'])
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         season = self.get_object()
-        characters = Character.objects.filter(seasons=season)  # Obtener personajes de la temporada
+        characters = Character.objects.filter(seasons=season)  
         context['characters'] = characters
         return context
