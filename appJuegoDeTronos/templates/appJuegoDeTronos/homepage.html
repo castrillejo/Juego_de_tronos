@@ -1,0 +1,80 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Inicio - Game of Thrones" %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="homepage">
+    <header>
+        <h1>{% trans "Game of Thrones" %}</h1>
+        <nav>
+            <a href="{% url 'homepage' %}">{% trans "Inicio" %}</a>
+            <a href="{% url 'characters_list' %}">{% trans "Personajes" %}</a>
+            <a href="{% url 'houses_list' %}">{% trans "Casas" %}</a>
+            <a href="{% url 'seasons_list' %}">{% trans "Temporadas" %}</a>
+            <a href="{% url 'add_character' %}">{% trans "Añadir Personaje" %}</a>
+        </nav>
+    </header>
+    <main class="homepage-featured">
+        <h2>{% trans "Casas y Personajes Destacados" %}</h2>
+
+        <form method="get" class="filter-form">
+            <label for="house-filter">{% trans "Filtrar por Casa:" %}</label>
+            <select name="house" id="house-filter">
+                <option value="">{% trans "Todas las Casas" %}</option>
+                {% for house in houses %}
+                    <option value="{{ house.name }}" {% if house.name == request.GET.house %}selected{% endif %}>
+                        {{ house.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit">{% trans "Filtrar" %}</button>
+        </form>
+        
+        
+        
+        <ul>
+            {% for house, data in featured_characters.items %}
+            <li class="homepage-featured-item">
+                <!-- Contenedor exclusivo para la imagen de la casa -->
+                <div class="homepage-house-image">
+                    {% if data.house_image_url %}
+                        <img src="{{ data.house_image_url }}" alt="{{ house.name }}">
+                    {% else %}
+                        <p>{% trans "Imagen de la casa no disponible" %}</p>
+                    {% endif %}
+                </div>
+                <!-- Detalles de la casa -->
+                <div class="homepage-featured-details">
+                    <h3>
+                        <a href="{% url 'house_detail' house.id %}">{{ house.name }}</a>
+                    </h3>
+                    <p>{{ house.description }}</p>
+                    {% if data.character %}
+                        <h4>{% trans "Personaje Destacado:" %} 
+                            <a href="{% url 'character_detail' data.character.id %}">
+                                {{ data.character.name }}
+                            </a>
+                        </h4>
+                        <p>{{ data.character.description }}</p>
+                    {% else %}
+                        <p>{% trans "No hay personajes destacados en esta casa." %}</p>
+                    {% endif %}
+                </div>
+                <!-- Contenedor exclusivo para la imagen del personaje -->
+                {% if data.character_image_url %}
+                <div class="homepage-character-image">
+                    <img src="{{ data.character_image_url }}" alt="{{ data.character.name }}">
+                </div>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>

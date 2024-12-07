@@ -1,0 +1,40 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>{% block title %}{% trans "Game of Thrones" %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>{% trans "Game of Thrones" %}</h1>
+        <nav>
+            <a href="{% url 'homepage' %}">{% trans "Inicio" %}</a>
+            <a href="{% url 'characters_list' %}">{% trans "Personajes" %}</a>
+            <a href="{% url 'houses_list' %}">{% trans "Casas" %}</a>
+            <a href="{% url 'seasons_list' %}">{% trans "Temporadas" %}</a>
+            <a href="{% url 'add_character' %}">{% trans "Añadir Personaje" %}</a>
+        </nav>
+
+        <form action="{% url 'set_language' %}" method="post" style="margin-top: 1rem;">
+            {% csrf_token %}
+            <label for="language-select">{% trans "Cambiar idioma:" %}</label>
+            <select name="language" id="language-select" onchange="this.form.submit()">
+                {% for lang_code, lang_name in LANGUAGES %}
+                <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                    {{ lang_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
