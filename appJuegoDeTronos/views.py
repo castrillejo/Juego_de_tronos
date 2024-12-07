@@ -20,18 +20,36 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        house_filter = self.request.GET.get('house', None)
         houses = House.objects.all()
-        featured_characters = {
-            house: {
-                "character": house.characters.order_by('name').first(),
-                "house_image_url": static(f"media/casa_{house.name.lower()}.jpg"),
-                "character_image_url": static(f"media/{house.characters.order_by('name').first().name.lower().replace(' ', '_')}.jpg")
-                    if house.characters.order_by('name').first() else None,
-            }
-            for house in houses
-        }
+
+        featured_characters = {}
+        if house_filter:
+            selected_house = houses.filter(name=house_filter).first()
+            if selected_house:
+                character = selected_house.characters.order_by('name').first()
+                featured_characters[selected_house] = {
+                    "character": character,
+                    "house_image_url": static(f"media/casa_{selected_house.name.lower()}.jpg"),
+                    "character_image_url": static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
+                    if character else None,
+                }
+        else:
+            for house in houses:
+                character = house.characters.order_by('name').first()
+                featured_characters[house] = {
+                    "character": character,
+                    "house_image_url": static(f"media/casa_{house.name.lower()}.jpg"),
+                    "character_image_url": static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
+                    if character else None,
+                }
+
+        context['houses'] = houses
         context['featured_characters'] = featured_characters
         return context
+
+
+
 
 # Vista para la lista de personajes
 class CharacterListView(ListView):

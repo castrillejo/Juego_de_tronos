@@ -21,20 +21,21 @@
     <main class="homepage-featured">
         <h2>Casas y Personajes Destacados</h2>
 
-        <!-- Formulario para filtrar por casa -->
         <form method="get" class="filter-form">
-            <label for="house">Filtrar por Casa:</label>
-            <select name="house" id="house">
+            <label for="house-filter">Filtrar por Casa:</label>
+            <select name="house" id="house-filter">
                 <option value="">Todas las Casas</option>
                 {% for house in houses %}
-                <option value="{{ house.name }}" {% if request.GET.house == house.name %}selected{% endif %}>
-                    {{ house.name }}
-                </option>
+                    <option value="{{ house.name }}" {% if house.name == request.GET.house %}selected{% endif %}>
+                        {{ house.name }}
+                    </option>
                 {% endfor %}
             </select>
             <button type="submit">Filtrar</button>
         </form>
-
+        
+        
+        
         <ul>
             {% for house, data in featured_characters.items %}
             <li class="homepage-featured-item">
