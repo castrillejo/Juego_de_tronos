@@ -4,7 +4,6 @@ from django.conf import settings
 from . import views
 from .views import character_info
 
-
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='homepage'),  # Cambiado a CBV
     path('characters/', views.CharacterListView.as_view(), name='characters_list'),  # Cambiado a CBV
