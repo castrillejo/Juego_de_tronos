@@ -6,7 +6,6 @@ from django.http import HttpResponse
 from .forms import CharacterForm 
 from django.http import JsonResponse 
 from django.contrib import messages
-from django.utils.translation import gettext as _
 
 def character_info(request, character_id):
     try:
@@ -161,8 +160,3 @@ def add_character_form(request):
         form = CharacterForm()
 
     return render(request, 'appJuegoDeTronos/add_character.html', {'form': form})
-
-def characters_list(request):
-    title = _("Lista de Personajes")
-    characters = Character.objects.all()
-    return render(request, "characters_list.html", {"title": title, "characters": characters})

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of Thrones - {{ house.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="house-detail-page">
+    <header>
+        <h1>Game of Thrones</h1>
+        <nav>
+            <a href="{% url 'homepage' %}">Inicio</a>
+            <a href="{% url 'characters_list' %}">Personajes</a>
+            <a href="{% url 'houses_list' %}">Casas</a>
+            <a href="{% url 'seasons_list' %}">Temporadas</a>
+            <a href="{% url 'add_character' %}">Añadir Personaje</a>
+        </nav>
+    </header>
+    <main>
+        <h2>{{ house.name }}</h2>
+        <p>{{ house.description }}</p>
+
+        <h3>Personajes:</h3>
+        <ul>
+            {% for character in house.characters.all %}
+            <li>
+                <a href="{% url 'character_detail' character.id %}">{{ character.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>
