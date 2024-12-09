@@ -1,14 +1,17 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function ()
+ {
     const searchBar = document.getElementById("search-bar");
     const characterItems = document.querySelectorAll(".character-item");
     const favoriteList = document.getElementById("favorite-list");
 
     //Cargar favoritos desde localStorage
-    const loadFavorites = () => {
+    const loadFavorites = () =>
+        {
         const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
         favoriteList.innerHTML = "";
 
-        favorites.forEach(fav => {
+        favorites.forEach(fav => 
+        {
             const listItem = document.createElement("li");
             const link = document.createElement("a");
             link.textContent = fav.name;
@@ -19,15 +22,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         //Estrellas en la lista de personajes
-        characterItems.forEach(item => {
+        characterItems.forEach(item => 
+            {
             const characterId = item.dataset.characterId;
             const star = item.querySelector(".favorite-star");
             const isFavorite = favorites.some(fav => fav.id === characterId);
 
-            if (isFavorite) {
+            if (isFavorite) 
+            {
                 star.textContent = "★";
                 star.classList.add("favorite");
-            } else {
+            } else 
+            {
                 star.textContent = "☆";
                 star.classList.remove("favorite");
             }
@@ -35,11 +41,13 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     //Guardar o eliminar favoritos en localStorage
-    const toggleFavorite = (id, name) => {
+    const toggleFavorite = (id, name) => 
+        {
         let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
         const favoriteIndex = favorites.findIndex(fav => fav.id === id);
 
-        if (favoriteIndex > -1) {
+        if (favoriteIndex > -1) 
+        {
             favorites.splice(favoriteIndex, 1);
         } else {
             favorites.push({ id, name });
@@ -50,25 +58,31 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     //Eventos de búsqueda
-    searchBar.addEventListener("input", function () {
+    searchBar.addEventListener("input", function () 
+    {
         const query = searchBar.value.toLowerCase();
-        characterItems.forEach(item => {
+        characterItems.forEach(item => 
+        {
             const characterName = item.dataset.characterName.toLowerCase();
-            if (characterName.includes(query)) {
+            if (characterName.includes(query)) 
+            {
                 item.style.display = "flex";
-            } else {
+            } else 
+            {
                 item.style.display = "none";
             }
         });
     });
 
     //Marcar/Desmarcar como Favorito
-    characterItems.forEach(item => {
+    characterItems.forEach(item => 
+        {
         const favoriteStar = item.querySelector(".favorite-star");
         const characterId = item.dataset.characterId;
         const characterName = item.querySelector(".character-name").textContent.trim();
 
-        favoriteStar.addEventListener("click", function () {
+        favoriteStar.addEventListener("click", function () 
+        {
             toggleFavorite(characterId, characterName);
         });
     });
