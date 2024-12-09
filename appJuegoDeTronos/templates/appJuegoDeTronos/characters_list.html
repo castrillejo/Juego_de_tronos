@@ -7,7 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body class= "character-list-page">
+<body class="character-list-page">
     <header>
         <h1>Game of Thrones</h1>
         <nav>
@@ -20,25 +20,38 @@
     </header>
     <main>
         <h2>Lista de Personajes</h2>
-        <ul>
+        <!-- Barra de búsqueda -->
+        <input type="text" id="search-bar" class="search-bar" placeholder="Buscar personajes por nombre...">
+
+        <!-- Lista de personajes -->
+        <ul class="character-list">
             {% for data in characters_with_images %}
-            <li class="character-item">
-                <!--Imagen del personaje-->
+            <li class="character-item" data-character-id="{{ data.character.id }}" data-character-name="{{ data.character.name|lower }}">
+                <!-- Imagen del personaje -->
                 {% if data.image_url %}
                     <img src="{{ data.image_url }}" alt="{{ data.character.name }}" class="character-image">
                 {% else %}
                     <p>Sin imagen</p>
                 {% endif %}
-                <!--Detalles del personaje-->
+                <!-- Detalles del personaje -->
                 <div>
                     <a href="{% url 'character_detail' data.character.id %}">
-                        <h3>{{ data.character.name }}</h3>
+                        <h3 class="character-name">{{ data.character.name }}</h3>
                     </a>
                     <p>{{ data.character.description }}</p>
                 </div>
+                <!-- Botón de favorito -->
+                <span class="favorite-star" data-character-id="{{ data.character.id }}">&#9734;</span>
             </li>
             {% endfor %}
         </ul>
+
+        <!-- Sección para mostrar favoritos -->
+        <h3>Tus Favoritos</h3>
+        <ul id="favorite-list"></ul>
     </main>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/character_list.js' %}"></script>
 </body>
 </html>

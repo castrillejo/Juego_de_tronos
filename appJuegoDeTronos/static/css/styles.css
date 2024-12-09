@@ -475,9 +475,42 @@ a:hover {
     max-width: 400px; 
 }
 
+.search-bar {
+    width: 80%; 
+    margin: 1rem auto; 
+    padding: 0.5rem 2.5rem 0.5rem 1rem; 
+    font-size: 1rem;
+    border: 2px solid #A52A2A; 
+    border-radius: 25px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    background: url('/static/media/search_icon.png') no-repeat 95% center;
+    background-size: 20px; 
+}
+.search-bar:focus {
+    outline: none; 
+    border-color: #800000; 
+    box-shadow: 0 0 8px rgba(165, 42, 42, 0.5); 
+}
 
+.favorite-star {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #a51a1a;
+    margin-left: auto;
+}
 
+.favorite-star.favorite {
+    color: #b22222; 
+}
 
+.favorite-link {
+    text-decoration: none;
+    color: #b22222; 
+}
+
+.favorite-link:hover {
+    text-decoration: underline;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -514,24 +547,4 @@ a:hover {
         margin: 0 auto;
     }
 }
-
-
-/* estilo lenguajes */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
