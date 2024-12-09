@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.templatetags.static import static
 from .models import Character, House, Season
+from django.utils.translation import get_language
 from django.http import HttpResponse
 from .forms import CharacterForm 
 from django.http import JsonResponse 
@@ -23,6 +24,8 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['LANGUAGES'] = settings.LANGUAGES 
+        context['LANGUAGE_CODE'] = get_language()  
         house_filter = self.request.GET.get('house', None)
         houses = House.objects.all()
 

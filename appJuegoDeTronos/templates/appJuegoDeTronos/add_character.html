@@ -2,7 +2,7 @@
 
 {% block content %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
         <form method="post" enctype="multipart/form-data" class="mt-4">
             {% csrf_token %}
 
-            <!-- Campo de Nombre -->
+            <!--Campo de Nombre-->
             <div class="form-group mb-3">
                 <label for="name" class="form-label">Nombre:</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ form.name.value|default_if_none:'' }}">
@@ -37,7 +37,7 @@
                 {% endif %}
             </div>
 
-            <!-- Campo de Casa -->
+            <!--Campo de Casa-->
             <div class="form-group mb-3">
                 <label for="house" class="form-label">Casa:</label>
                 {{ form.house }}
@@ -48,7 +48,7 @@
                 {% endif %}
             </div>
 
-            <!-- Campo de Imagen -->
+            <!--Campo de Imagen-->
             <div class="form-group mb-3">
                 <label for="image" class="form-label">Imagen:</label>
                 <input type="file" name="image" id="image" class="form-control">
@@ -59,7 +59,7 @@
                 {% endif %}
             </div>
 
-            <!-- Campo de Temporadas -->
+            <!--Campo de Temporadas-->
             <div>
                 {% for season in form.seasons.field.queryset %}
                 <label>
