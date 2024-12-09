@@ -60,15 +60,16 @@
             </div>
 
             <!-- Campo de Temporadas -->
-            <div class="form-group mb-4">
-                <label for="seasons" class="form-label">Temporadas:</label>
-                {{ form.seasons }}
-                {% if form.seasons.errors %}
-                <div class="text-danger">
-                    {{ form.seasons.errors }}
-                </div>
-                {% endif %}
-            </div>
+            <div>
+                {% for season in form.seasons.field.queryset %}
+                <label>
+                    <input type="checkbox" name="seasons" value="{{ season.id }}">
+                    {{ season }}
+                </label>
+                {% endfor %}
+            </div><br>
+
+            {{ forms.as_py }}
 
             <!-- Botón de envío -->
             <div class="d-grid">

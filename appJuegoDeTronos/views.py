@@ -6,6 +6,9 @@ from django.http import HttpResponse
 from .forms import CharacterForm 
 from django.http import JsonResponse 
 from django.contrib import messages
+import os
+from django.conf import settings
+
 
 def character_info(request, character_id):
     try:
@@ -59,10 +62,26 @@ class CharacterListView(ListView):
 
     def get_queryset(self):
         characters = Character.objects.all().order_by('name')
+
+        def get_image_url(character):
+            # Ruta de la imagen en appJuegoDeTronos/static/media
+            static_path = os.path.join(settings.BASE_DIR, 'appJuegoDeTronos', 'static', 'media', f"{character.name.lower().replace(' ', '_')}.jpg")
+            if os.path.exists(static_path):
+                # Si existe en appJuegoDeTronos/static/media, devuelve esa URL
+                return static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
+            
+            # Si no está en static/media, verifica en media (a la misma altura que appJuegoDeTronos)
+            media_path = os.path.join(settings.BASE_DIR, 'media', f"{character.name.lower().replace(' ', '_')}.jpg")
+            if os.path.exists(media_path):
+                return f"/media/{character.name.lower().replace(' ', '_')}.jpg"
+            
+            # Si no hay imagen en ningún lugar
+            return None
+
         return [
             {
                 "character": character,
-                "image_url": static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
+                "image_url": get_image_url(character)
             }
             for character in characters
         ]
