@@ -61,29 +61,34 @@ class CharacterListView(ListView):
     context_object_name = 'characters_with_images'
 
     def get_queryset(self):
-        characters = Character.objects.all().order_by('name')
-
         def get_image_url(character):
-            # Ruta de la imagen en appJuegoDeTronos/static/media
             static_path = os.path.join(settings.BASE_DIR, 'appJuegoDeTronos', 'static', 'media', f"{character.name.lower().replace(' ', '_')}.jpg")
-            if os.path.exists(static_path):
-                # Si existe en appJuegoDeTronos/static/media, devuelve esa URL
-                return static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
-            
-            # Si no está en static/media, verifica en media (a la misma altura que appJuegoDeTronos)
             media_path = os.path.join(settings.BASE_DIR, 'media', f"{character.name.lower().replace(' ', '_')}.jpg")
+
+            # Imprime información detallada para depuración
+            print(f"[Checking Static Path] {character.name}: {static_path} - Exists: {os.path.exists(static_path)}")
+            print(f"[Checking Media Path] {character.name}: {media_path} - Exists: {os.path.exists(media_path)}")
+
+            if os.path.exists(static_path):
+                url = static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
+                print(f"[Static Found] {character.name}: {url}")
+                return url
+
             if os.path.exists(media_path):
-                return f"/media/{character.name.lower().replace(' ', '_')}.jpg"
-            
-            # Si no hay imagen en ningún lugar
+                url = f"/media/{character.name.lower().replace(' ', '_')}.jpg"
+                print(f"[Media Found] {character.name}: {url}")
+                return url
+
+            print(f"[No Image Found] {character.name}")
             return None
 
+        # Obtener todos los personajes y construir el queryset con la URL de la imagen
         return [
             {
                 "character": character,
                 "image_url": get_image_url(character)
             }
-            for character in characters
+            for character in Character.objects.all().order_by('name')
         ]
 
 # Vista para el detalle de un personaje
