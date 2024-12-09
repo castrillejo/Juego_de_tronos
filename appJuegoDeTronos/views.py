@@ -3,13 +3,11 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.templatetags.static import static
 from .models import Character, House, Season
 from django.utils.translation import get_language
-from django.http import HttpResponse
-from .forms import CharacterForm 
-from django.http import JsonResponse 
+from django.http import JsonResponse
 from django.contrib import messages
 import os
 from django.conf import settings
-
+from .forms import CharacterForm
 
 def character_info(request, character_id):
     try:
@@ -17,15 +15,15 @@ def character_info(request, character_id):
         return JsonResponse({'is_alive': character.is_alive})
     except Character.DoesNotExist:
         return JsonResponse({'error': 'Character not found'}, status=404)
-    
+
 # Vista para la página de inicio
 class HomePageView(TemplateView):
     template_name = 'appJuegoDeTronos/homepage.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['LANGUAGES'] = settings.LANGUAGES 
-        context['LANGUAGE_CODE'] = get_language()  
+        context['LANGUAGES'] = settings.LANGUAGES
+        context['LANGUAGE_CODE'] = get_language()
         house_filter = self.request.GET.get('house', None)
         houses = House.objects.all()
 
@@ -54,9 +52,6 @@ class HomePageView(TemplateView):
         context['featured_characters'] = featured_characters
         return context
 
-
-
-
 # Vista para la lista de personajes
 class CharacterListView(ListView):
     model = Character
@@ -68,24 +63,14 @@ class CharacterListView(ListView):
             static_path = os.path.join(settings.BASE_DIR, 'appJuegoDeTronos', 'static', 'media', f"{character.name.lower().replace(' ', '_')}.jpg")
             media_path = os.path.join(settings.BASE_DIR, 'media', f"{character.name.lower().replace(' ', '_')}.jpg")
 
-            # Imprime información detallada para depuración
-            print(f"[Checking Static Path] {character.name}: {static_path} - Exists: {os.path.exists(static_path)}")
-            print(f"[Checking Media Path] {character.name}: {media_path} - Exists: {os.path.exists(media_path)}")
-
             if os.path.exists(static_path):
-                url = static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
-                print(f"[Static Found] {character.name}: {url}")
-                return url
+                return static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
 
             if os.path.exists(media_path):
-                url = f"/media/{character.name.lower().replace(' ', '_')}.jpg"
-                print(f"[Media Found] {character.name}: {url}")
-                return url
+                return f"/media/{character.name.lower().replace(' ', '_')}.jpg"
 
-            print(f"[No Image Found] {character.name}")
             return None
 
-        # Obtener todos los personajes y construir el queryset con la URL de la imagen
         return [
             {
                 "character": character,
@@ -103,18 +88,38 @@ class CharacterDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         character = self.get_object()
-        character_image_url = static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
-        
+
+        static_path = os.path.join(settings.BASE_DIR, 'appJuegoDeTronos', 'static', 'media', f"{character.name.lower().replace(' ', '_')}.jpg")
+        media_path = os.path.join(settings.MEDIA_ROOT, f"{character.name.lower().replace(' ', '_')}.jpg")
+
+        if os.path.exists(static_path):
+            character_image_url = static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
+        elif os.path.exists(media_path):
+            character_image_url = f"{settings.MEDIA_URL}{character.name.lower().replace(' ', '_')}.jpg"
+        else:
+            character_image_url = None
+
         house_data = None
         if character.house:
+            house_static_path = os.path.join(settings.BASE_DIR, 'appJuegoDeTronos', 'static', 'media', f"casa_{character.house.name.lower().replace(' ', '_')}.jpg")
+            house_media_path = os.path.join(settings.MEDIA_ROOT, f"casa_{character.house.name.lower().replace(' ', '_')}.jpg")
+
+            if os.path.exists(house_static_path):
+                house_image_url = static(f"media/casa_{character.house.name.lower().replace(' ', '_')}.jpg")
+            elif os.path.exists(house_media_path):
+                house_image_url = f"{settings.MEDIA_URL}casa_{character.house.name.lower().replace(' ', '_')}.jpg"
+            else:
+                house_image_url = None
+
             house_data = {
-                "id":character.house.id,
+                "id": character.house.id,
                 "name": character.house.name,
                 "description": character.house.description,
-                "image_url": static(f"media/casa_{character.house.name.lower().replace(' ', '_')}.jpg")
+                "image_url": house_image_url
             }
 
         seasons = character.seasons.all()
+
         context.update({
             'character_image_url': character_image_url,
             'house_data': house_data,
@@ -169,10 +174,9 @@ class SeasonDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         season = self.get_object()
-        characters = Character.objects.filter(seasons=season)  # Obtener personajes de la temporada
+        characters = Character.objects.filter(seasons=season)
         context['characters'] = characters
         return context
-
 
 def add_character_form(request):
     if request.method == "POST":
@@ -181,7 +185,7 @@ def add_character_form(request):
             character = form.save(commit=False)
             character.save()
             form.save_m2m()
-            messages.success(request, "El personaje ha sido añadido con éxito.")  # Mensaje de éxito
+            messages.success(request, "El personaje ha sido añadido con éxito.")
             return redirect('characters_list')
     else:
         form = CharacterForm()

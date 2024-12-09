@@ -69,6 +69,17 @@
                 {% endfor %}
             </div><br>
 
+            <div class="form-check mb-3">
+                <input type="checkbox" name="is_alive" id="is_alive" class="form-check-input" 
+                       {% if form.is_alive.value %}checked{% endif %}>
+                <label for="is_alive" class="form-check-label">¿Está vivo?</label>
+                {% if form.is_alive.errors %}
+                <div class="text-danger">
+                    {{ form.is_alive.errors }}
+                </div>
+                {% endif %}
+            </div>
+
             {{ forms.as_py }}
 
             <!-- Botón de envío -->
