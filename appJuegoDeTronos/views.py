@@ -28,6 +28,7 @@ class HomePageView(TemplateView):
         houses = House.objects.all()
 
         featured_characters = {}
+
         if house_filter:
             selected_house = houses.filter(name=house_filter).first()
             if selected_house:
@@ -35,8 +36,7 @@ class HomePageView(TemplateView):
                 featured_characters[selected_house] = {
                     "character": character,
                     "house_image_url": static(f"media/casa_{selected_house.name.lower()}.jpg"),
-                    "character_image_url": static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
-                    if character else None,
+                    "character_image_url": self.get_character_image_url(character) if character else None,
                 }
         else:
             for house in houses:
@@ -44,13 +44,30 @@ class HomePageView(TemplateView):
                 featured_characters[house] = {
                     "character": character,
                     "house_image_url": static(f"media/casa_{house.name.lower()}.jpg"),
-                    "character_image_url": static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
-                    if character else None,
+                    "character_image_url": self.get_character_image_url(character) if character else None,
                 }
 
         context['houses'] = houses
         context['featured_characters'] = featured_characters
         return context
+
+    def get_character_image_url(self, character):
+        """
+        Busca la imagen del personaje tanto en static/media como en media/.
+        """
+        if not character:
+            return None
+        
+        static_path = os.path.join(settings.BASE_DIR, 'appJuegoDeTronos', 'static', 'media', f"{character.name.lower().replace(' ', '_')}.jpg")
+        media_path = os.path.join(settings.MEDIA_ROOT, f"{character.name.lower().replace(' ', '_')}.jpg")
+
+        if os.path.exists(static_path):
+            return static(f"media/{character.name.lower().replace(' ', '_')}.jpg")
+
+        if os.path.exists(media_path):
+            return f"{settings.MEDIA_URL}{character.name.lower().replace(' ', '_')}.jpg"
+
+        return None
 
 # Vista para la lista de personajes
 class CharacterListView(ListView):
