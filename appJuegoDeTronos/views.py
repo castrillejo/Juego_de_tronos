@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, ListView, DetailView, View
+from django.views.generic import TemplateView, ListView, DetailView
 from django.templatetags.static import static
 from .models import Character, House, Season
 from django.utils.translation import get_language
@@ -9,16 +9,12 @@ import os
 from django.conf import settings
 from .forms import CharacterForm
 
-from django.views.generic.edit import FormView
-from django.urls import reverse_lazy
-
-class CharacterInfoView(View):
-    def get(self, request, character_id):
-        try:
-            character = Character.objects.get(id=character_id)
-            return JsonResponse({'is_alive': character.is_alive})
-        except Character.DoesNotExist:
-            return JsonResponse({'error': 'Character not found'}, status=404)
+def character_info(request, character_id):
+    try:
+        character = Character.objects.get(id=character_id)
+        return JsonResponse({'is_alive': character.is_alive})
+    except Character.DoesNotExist:
+        return JsonResponse({'error': 'Character not found'}, status=404)
 
 # Vista para la página de inicio
 class HomePageView(TemplateView):
@@ -199,14 +195,16 @@ class SeasonDetailView(DetailView):
         context['characters'] = characters
         return context
 
-class AddCharacterView(FormView):
-    template_name = 'appJuegoDeTronos/add_character.html'
-    form_class = CharacterForm
-    success_url = reverse_lazy('characters_list')
+def add_character_form(request):
+    if request.method == "POST":
+        form = CharacterForm(request.POST, request.FILES)
+        if form.is_valid():
+            character = form.save(commit=False)
+            character.save()
+            form.save_m2m()
+            messages.success(request, "El personaje ha sido añadido con éxito.")
+            return redirect('characters_list')
+    else:
+        form = CharacterForm()
 
-    def form_valid(self, form):
-        character = form.save(commit=False)
-        character.save()
-        form.save_m2m()
-        messages.success(self.request, "El personaje ha sido añadido con éxito.")
-        return super().form_valid(form)
+    return render(request, 'appJuegoDeTronos/add_character.html', {'form': form})
